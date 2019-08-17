@@ -15,9 +15,9 @@
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/whitetoot/All-the-News-That-s-Fit-to-Scrape.git"
+    "url": ""
   },
-  "homepage": "https://github.com/whitetoot/All-the-News-That-s-Fit-to-Scrape.git",
+  "homepage": "",
   "dependencies": {
     "body-parser": "^1.19.0",
     "cheerio": "^1.0.0-rc.3",
