@@ -1,18 +1,21 @@
 'use strict';
 
 const express = require('express'),
-      router = express.Router(),
-      Article = require('../models/article');
+    router = express.Router();
+const Article = require('../models/article');
 
 
-router.get('/', function(req, res) {
+router.get('/', function (req, res) {
+    Article.find({}, (err, res) => {
+        console.log(res)
+    })
     Article
         .find({})
         .where('saved').equals(false)
         .where('deleted').equals(false)
         .sort('-date')
         .limit(20)
-        .exec(function(error, articles) {
+        .exec(function (error, articles) {
             if (error) {
                 console.log(error);
                 res.status(500);
@@ -23,19 +26,20 @@ router.get('/', function(req, res) {
                     subtitle: 'Hack the planet edition',
                     articles: articles
                 };
+                console.log("hbsObj: ", hbsObj.articles)
                 res.render('index', hbsObj);
             }
         });
 });
 
-router.get('/saved', function(req, res) {
+router.get('/saved', function (req, res) {
     Article
         .find({})
         .where('saved').equals(true)
         .where('deleted').equals(false)
         .populate('notes')
         .sort('-date')
-        .exec(function(error, articles) {
+        .exec(function (error, articles) {
             if (error) {
                 console.log(error);
                 res.status(500);
@@ -46,7 +50,7 @@ router.get('/saved', function(req, res) {
                     subtitle: 'Saved Hacker News',
                     articles: articles
                 };
-                res.render("saved" ,hbsObj);
+                res.render("saved", hbsObj);
             }
         });
 });

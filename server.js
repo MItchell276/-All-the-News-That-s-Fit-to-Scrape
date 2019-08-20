@@ -22,7 +22,7 @@ app
     .use(express.static(__dirname + '/public'))
     .engine('handlebars', exphbs({ defaultLayout: 'main' }))
     .set('view engine', 'handlebars')
-    .use(require('./controllers'));
+app.use(require('./controllers'));
 
 mongoose.Promise = Promise;
 
