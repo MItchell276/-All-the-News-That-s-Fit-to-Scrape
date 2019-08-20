@@ -1,14 +1,12 @@
 'use strict';
 
-const express = require('express'),
-    router = express.Router();
+const express = require('express');
+const router = express.Router();
 const Article = require('../models/article');
 
 
 router.get('/', function (req, res) {
-    Article.find({}, (err, res) => {
-        console.log(res)
-    })
+
     Article
         .find({})
         .where('saved').equals(false)
