@@ -5,6 +5,8 @@ const express = require('express'),
       cheerio = require('cheerio'),
       Article = require('../../models/article');
      
+
+// get all articles from database
 router.get('/', function(req, res) {
     Article
         .find({})
@@ -18,6 +20,7 @@ router.get('/', function(req, res) {
         });
 });
 
+// get all saved articles
 router.get('/saved', function(req, res) {
     Article
         .find({})
@@ -34,6 +37,7 @@ router.get('/saved', function(req, res) {
         });
 });
 
+// get all deleted articles
 router.get('/deleted', function(req, res) {
     Article
         .find({})
@@ -48,6 +52,7 @@ router.get('/deleted', function(req, res) {
         });
 });
 
+// save an article
 router.post('/save/:id', function(req, res) {
     Article.findByIdAndUpdate(req.params.id, {
         $set: { saved: true}
@@ -63,20 +68,22 @@ router.post('/save/:id', function(req, res) {
         });
 });
 
-router.post('/unsave/:id', function(req, res) {
+// dismiss a scraped article
+router.delete('/dismiss/:id', function(req, res) {
     Article.findByIdAndUpdate(req.params.id,
-        { $set: { saved: false } },
+        { $set: { deleted: true } },
         { new: true },
         function(error, doc) {
             if (error) {
                 console.log(error);
                 res.status(500);
             } else {
-                res.redirect('/saved');
+                res.redirect('/');
             }
         });
 });
 
+// delete a saved article
 router.delete('/:id', function(req, res) {
     Article.findByIdAndUpdate(req.params.id,
         { $set: { deleted: true} },
@@ -86,12 +93,13 @@ router.delete('/:id', function(req, res) {
                 console.log(error);
                 res.status(500);
             } else {
-                res.redirect('/');
+                res.redirect('/saved');
             }
         }
     );
 });
 
+// scrape articles
 router.get('/scrape', function(req, res, next) {
     request('https://news.ycombinator.com', function(error, response, html) {
         let $ = cheerio.load(html);
@@ -105,7 +113,9 @@ router.get('/scrape', function(req, res, next) {
                     title: title,
                     link: link
                 };
+                // create new article
                 let entry = new Article(single);
+                // save to database
                 entry.save(function(err, doc) {
                     if (err) {
                         if (!err.errors.link) {

@@ -1,5 +1,14 @@
 'use strict';
 
+/**
+ * 
+ * Homework Assignment 18 - All the News That's Fit to Scrape
+ * Jarrett Tolman - controllers/api/notes.js
+ * 
+ */
+
+// dependencies
+// =============================================================
 const express = require('express'),
       router = express.Router(),
       request = require('request'),
@@ -7,7 +16,7 @@ const express = require('express'),
       Article = require('../../models/article'),
       Note = require('../../models/note');
 
-
+// get all notes
 router.get('/', function(req, res) {
     Note
         .find({})
@@ -21,6 +30,7 @@ router.get('/', function(req, res) {
         });
 });
 
+// add a note to a saved article
 router.post('/:id', function(req, res) {
     let newNote = new Note(req.body);
     newNote.save(function(err, doc) {
@@ -44,6 +54,7 @@ router.post('/:id', function(req, res) {
     });
 });
 
+// delete a note from a saved article
 router.delete('/:id', function(req, res) {
     Note.findByIdAndRemove(req.params.id, function(err, note) {
         if (err) {

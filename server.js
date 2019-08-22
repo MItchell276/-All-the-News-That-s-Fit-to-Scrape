@@ -1,20 +1,23 @@
 'use strict';
 
+
+// dependencies
+// =============================================================
 const express = require('express'),
-    exphbs = require('express-handlebars'),
-    bodyParser = require('body-parser'),
-    logger = require('morgan'),
-    mongoose = require('mongoose'),
-    methodOverride = require('method-override');
+      exphbs = require('express-handlebars'),
+      bodyParser = require('body-parser'),
+      logger = require('morgan'),
+      mongoose = require('mongoose'),
+      methodOverride = require('method-override');
 
-
-
-const PORT = process.env.PORT || 3000;
+// set up express app
+// =============================================================
+const PORT = process.env.PORT || 8000;
 let app = express();
 
 app
     .use(bodyParser.json())
-    .use(bodyParser.urlencoded({ extended: true }))
+    .use(bodyParser.urlencoded({ extended:true }))
     .use(bodyParser.text())
     .use(bodyParser.json({ type: 'application/vnd.api+json' }))
     .use(methodOverride('_method'))
@@ -22,32 +25,34 @@ app
     .use(express.static(__dirname + '/public'))
     .engine('handlebars', exphbs({ defaultLayout: 'main' }))
     .set('view engine', 'handlebars')
-app.use(require('./controllers'));
+    .use(require('./controllers'));
 
+// configure mongoose and start the server
+// =============================================================
+// set mongoose to leverage promises
 mongoose.Promise = Promise;
 
-const dbURI = process.env.MONGODB_URI || "mongodb://localhost:27017/test";
+const dbURI = process.env.MONGODB_URI || "mongodb://localhost:27017/newsArticles";
 
+// Database configuration with mongoose
 mongoose.set('useCreateIndex', true)
 mongoose.connect(dbURI, { useNewUrlParser: true });
 
 const db = mongoose.connection;
 
-db.collection("articles").drop(() => { });
-db.collection("notes").drop(() => { });
-
-db.on("error", function (error) {
+// Show any mongoose errors
+db.on("error", function(error) {
     console.log("Mongoose Error: ", error);
 });
 
-
-db.once("open", function () {
+// Once logged in to the db through mongoose, log a success message
+db.once("open", function() {
     console.log("Mongoose connection successful.");
-
-    app.listen(PORT, function () {
+    // start the server, listen on port 3000
+    app.listen(PORT, function() {
         console.log("App running on port " + PORT);
     });
 });
 
 module.exports = app;
-
+    

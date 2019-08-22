@@ -23,7 +23,7 @@
                     {{/each}}
                 {{else}}
                         <div class="well">
-                            <p>No Notes for this article.. but you can always add you own Notes</p>
+                            <p>This story does not have any notes.</p>
                         </div>
                 {{/if}}
             </div>
@@ -32,11 +32,11 @@
                     <div class="col col-md-8">
                         <form class="form-inline" action="/api/notes/{{this.id}}" method="POST">
                             <input type="text" class="form-control" id="text" name="text" placeholder="Add a new note...">
-                            <button type="submit" class="btn btn-success">Add Note</button>
+                            <button type="submit" class="btn btn-info">Add Note</button>
                         </form>
                     </div>
                     <div class="col col-md-4">
-                        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                     </div>
                 </div>
             </div>

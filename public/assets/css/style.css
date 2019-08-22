@@ -1,17 +1,13 @@
 html, body {
     min-height: 100%;
-}
 
-.jumbotron {
-    color: black;
-    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-    font-weight: bolder;
+     
 }
-
 
 body {
     padding: 70px;
-    background-color: white;
+    /* background-color: #f6f6ef; */
+    background-color:grey;
 
 }
 
@@ -42,16 +38,14 @@ body {
 #scrapeBtn {
     text-align: right;
     float:right;
-    
 }
 
 .well {
+    /* background-color: #fc6621; */
     background-color:#f6f6ef;
     border-color: #000;
 }
-.container{
-    background-color:white;
-}
+
 
 #socialLinks{
     float:right;
@@ -69,7 +63,7 @@ img{
 
 .navbar-brand{
     font-weight: bold;
+    
 }
 
 a:hover,a:visited,a:link ,#scrapeBtn ,a { color:#000; }
-
